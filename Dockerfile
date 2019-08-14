@@ -8,7 +8,7 @@ RUN mkdir -p /usr/share/man/man1 &&\
 RUN apt update && apt install -y unzip rpm alien \
         libaio1 \
         # Install postgresql
-        postgresql-client \
+        postgresql-client libdbd-pg-perl libpq-dev \
         #install Perl Database Interface
         libdbi-perl \
         bzip2
@@ -35,7 +35,7 @@ ENV PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr
 
 # Instal DBI module with Postgres and Compress::Zlib module
 RUN perl -MCPAN -e 'install DBI' &&\
-    perl -MCPAN -e 'install DBD::Pg' &&\
+    perl -MCPAN -e "CPAN::Shell->notest('install', 'DBD::Pg')" &&\
     perl -MCPAN -e 'install Bundle::Compress::Zlib'
 
 # Instal Oracle database driver
